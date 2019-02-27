@@ -1,6 +1,7 @@
 from flask import Flask
 import datetime
 import json
+import feedparser
 import requests
 from bs4 import BeautifulSoup
 app = Flask(__name__)
@@ -17,6 +18,15 @@ def get_news(url):
             result += "<a href='{}'> {} </a> <br>".format(link_href, link_text)
     return result
 
+def get_marca(url):
+    result = ""
+    rss = requests.get(url)
+    rss_feed = feedparser.parse(rss.content)
+    for i in range(len(rss_feed['entries'])):
+        result += "<a href='{}'> {} </a> <br>".format(rss_feed['entries'][i]['links'][0]['href'], rss_feed['entries'][i]['title'])
+    return result
+
+
 @app.route("/")
 def home():
     result = """
@@ -29,6 +39,7 @@ def home():
 <h1> Point of interest </h1>
 <ul>
 	<li> <a href="/news.html">Hacker news </a> </li>
+	<li> <a href="/barca.html">Barca news </a> </li>
 </ul>
 
 </body>
@@ -73,4 +84,10 @@ def newshtml():
     result += get_news("https://news.ycombinator.com/news?p=3")
     result += "</body></html>"
     return result
+
+
+@app.route("/barca.html")
+def barca():
+   result = get_marca("https://e00-marca.uecdn.es/rss/en/football/barcelona.xml")
+   return result
 
