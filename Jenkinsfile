@@ -10,6 +10,7 @@ pipeline {
 		sh 'python3 ./app/server.py &'
 		sh 'curl -i localhost:5000/'
 		sh 'curl -i localhost:5000/news.html'
+		sh 'sleep 2'
 		sh 'curl -i localhost:5000/barca.html'
             }
         }
