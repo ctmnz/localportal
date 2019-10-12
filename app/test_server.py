@@ -24,5 +24,11 @@ class TestHello(unittest.TestCase):
         self.assertEqual(rv.status, '200 OK')
 #        self.assertIn(bytearray(f"{name}", 'utf-8'), rv.data)
 
+    def test_missing_route(self):
+        rv = self.app.get('/page_not_found.html')
+        self.assertEqual(rv.status, '404 NOT FOUND')
+
+
+
 if __name__ == '__main__':
     unittest.main()
