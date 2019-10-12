@@ -74,7 +74,7 @@ def news():
     r = json.dumps(result)
     return r
 
-@app.route("/news.html")
+@app.route("/newss.html")
 def newshtml():
     result = """
 <html><head><title>Hackernews</title></head><body style="font-size: 19px; margin: 25px;">
